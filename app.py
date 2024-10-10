@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import time
-import sklearn
+import time 
 
 from sklearn.metrics.pairwise import cosine_similarity
 
