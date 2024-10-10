@@ -6,7 +6,7 @@ import time
 from sklearn.metrics.pairwise import cosine_similarity
 
 #Leitura dos dados
-df = pd.read_csv(r"C:\UNDB\ESTRUTURA_DE_DADOS_AVANÇADOS\Github\recomendationsystem\DADOS\spotify_songs.csv").dropna().drop_duplicates(subset="track_name").reset_index(drop=True)
+df = pd.read_csv(r"https://raw.githubusercontent.com/AugustoCRX/recomendationsystem/refs/heads/main/DADOS/spotify_songs.csv").dropna().drop_duplicates(subset="track_name").reset_index(drop=True)
 reorder_list = df.columns.tolist()
 reorder_list.remove("track_name")
 reorder_list.insert(0,"track_name")
