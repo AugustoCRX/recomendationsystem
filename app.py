@@ -57,6 +57,7 @@ escolha = st.selectbox("Selecione um nome:", opcoes_filtradas)
 
 #Botão para execução do código de dijkstra
 if st.button("Procure músicas parecidas!"):
+    #Inicio do tempo de execução do código
     application_start = time.time()
     # Executar o código de dijkstra e buscar o índice selecionado
     recomendation = RecomendationSystem(np.where(prep_df['track_name'] == escolha))
@@ -71,19 +72,20 @@ if st.button("Procure músicas parecidas!"):
         )
 
     st.dataframe(df_show)
+    #Dimensionamento da div para divisão dos nomes das músicas e do botão
     col1, col2 = st.columns([5, 1])
     with col1:
-    # Loop para exibir as músicas como strings formatadas
+    # Loop para mostrar o nome das músicas
         for index, row in df_show.iterrows():
             nome_musica = row['Nome da música']
             
-            # Exibir as informações da música como texto formatado
+            # Exibir oo nome da música
             st.write(f"""
             **Música**: {nome_musica}
             """)
     with col2:
         for index, row in df_show.iterrows():
-            # Cria um link que abrirá a música no Spotify
+            # Armazena o link da música do Spotify
             music_id = row['ID da música']
             spotify_link = f"https://open.spotify.com/track/{music_id}"
             
