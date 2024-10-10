@@ -49,7 +49,7 @@ class RecomendationSystem():
 # Entrada de texto para o filtro
 entrada_usuario = st.text_input("Digite o nome da música:")
 
-# Filtrar os nomes que contenham o texto digitado (ignora maiúsculas/minúsculas)
+# Filtrar os nomes que contenham o texto digitado
 opcoes_filtradas = prep_df[prep_df['track_name'].str.contains(entrada_usuario, case=False)]
 
 # Dropdown exibindo apenas as opções filtradas
