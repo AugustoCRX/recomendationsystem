@@ -13,6 +13,8 @@ reorder_list.insert(0,"track_name")
 df = df[reorder_list]
 prep_df = df.copy()
 
+
+
 #Classe do sistema de recomendação
 class RecomendationSystem():
     def __init__(self, sample):
@@ -46,6 +48,8 @@ class RecomendationSystem():
         df_teste_sorted = df_cosine.iloc[df_new_order]
         return df_teste_sorted
 
+st.markdown("# Find the SPOT!")
+
 # Entrada de texto para o filtro
 entrada_usuario = st.text_input("Digite o nome da música:")
 
@@ -63,15 +67,14 @@ if st.button("Procure músicas parecidas!"):
     recomendation = RecomendationSystem(np.where(prep_df['track_name'] == escolha))
     df_recommendation = recomendation.dijkstra()
     st.write("Músicas que fazem o seu tipo!")
-    df_show = df_recommendation.head(11).loc[df["track_name"] != escolha, ["track_name","track_artist","track_album_name","playlist_name","track_id"]].rename(columns=
+    df_show = df_recommendation.head(11).loc[df["track_name"] != escolha, ["track_name","track_artist","track_album_name","playlist_name","track_id","playlist_genre"]].rename(columns=
         {"track_name":"Nome da música",
          "track_artist":"Nome do artista",
          "track_album_name": "Nome do album",
-         "playlist_name":"Nome da playlist",
-         "track_id":"ID da música"}
+         "playlist_genre": "Genero da playlist"}
         )
 
-    st.dataframe(df_show)
+    st.dataframe(df_show.drop(["playlist_name", "track_id"], axis = 1))
     #Dimensionamento da div para divisão dos nomes das músicas e do botão
     col1, col2 = st.columns([5, 1])
     with col1:
@@ -86,7 +89,7 @@ if st.button("Procure músicas parecidas!"):
     with col2:
         for index, row in df_show.iterrows():
             # Armazena o link da música do Spotify
-            music_id = row['ID da música']
+            music_id = row['track_id']
             spotify_link = f"https://open.spotify.com/track/{music_id}"
             
             # Botão que leva ao link do Spotify
