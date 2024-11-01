@@ -56,15 +56,18 @@ entrada_usuario = st.text_input("Digite o nome da música:")
 # Filtrar os nomes que contenham o texto digitado
 opcoes_filtradas = prep_df[prep_df['track_name'].str.contains(entrada_usuario, case=False)]
 
+# Criar uma nova coluna que concatena o nome da música e o nome do artista
+opcoes_filtradas['display_name'] = opcoes_filtradas['track_name'] + " - " + opcoes_filtradas['track_artist']
+
 # Dropdown exibindo apenas as opções filtradas
-escolha = st.selectbox("Selecione um nome:", opcoes_filtradas)
+escolha = st.selectbox("Selecione um nome:", opcoes_filtradas['display_name'])
 
 #Botão para execução do código de dijkstra
 if st.button("Procure músicas parecidas!"):
     #Inicio do tempo de execução do código
     application_start = time.time()
     # Executar o código de dijkstra e buscar o índice selecionado
-    recomendation = RecomendationSystem(np.where(prep_df['track_name'] == escolha))
+    recomendation = RecomendationSystem(np.where(prep_df['track_name'] == escolha.split(" - ")[0]))
     df_recommendation = recomendation.dijkstra()
     st.write("Músicas que fazem o seu tipo!")
     df_show = df_recommendation.head(11).loc[df["track_name"] != escolha, ["track_name","track_artist","track_album_name","playlist_name","track_id","playlist_genre"]].rename(columns=
@@ -81,10 +84,11 @@ if st.button("Procure músicas parecidas!"):
     # Loop para mostrar o nome das músicas
         for index, row in df_show.iterrows():
             nome_musica = row['Nome da música']
-            
+            nome_artista = row['Nome do artista']
+
             # Exibir oo nome da música
             st.write(f"""
-            **Música**: {nome_musica}
+            **Música**: {nome_musica} - {row['Nome do artista']}
             """)
     with col2:
         for index, row in df_show.iterrows():
